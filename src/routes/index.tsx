@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { MagneticButton } from "@/components/enkai/MagneticButton";
 
 import hero1 from "@/assets/hero-1.jpg";
@@ -257,54 +257,104 @@ const pillars = [
 const traits = ["Premium", "Present", "Dynamic", "Reliable", "Modern", "Elegant"];
 
 function WhyEnkai() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start start", "end end"],
+  });
+
+  const [active, setActive] = useState(0);
+  const total = pillars.length;
+
+  useEffect(() => {
+    const unsub = scrollYProgress.on("change", (v) => {
+      // Map 0..1 across pillars; keep last pillar sticky at the end
+      const idx = Math.min(total - 1, Math.floor(v * total));
+      setActive(idx);
+    });
+    return () => unsub();
+  }, [scrollYProgress, total]);
+
+  const lineWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
-    <section className="relative py-32 md:py-44 bg-navy-deep">
-      <div className="absolute inset-0 radial-burgundy-glow opacity-40" />
-      <div className="relative mx-auto max-w-7xl px-6">
-        <SectionHeading
-          kicker="What Makes Us Different"
-          title={<>Why <em className="italic text-parchment/60">Enkai</em>.</>}
-        />
+    <section
+      ref={wrapRef}
+      className="relative bg-navy-deep"
+      style={{ height: `${total * 100}vh` }}
+    >
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="absolute inset-0 radial-burgundy-glow opacity-40" />
 
-        <div className="mt-20 grid gap-x-12 gap-y-20 md:grid-cols-2 lg:grid-cols-3">
-          {pillars.map((p, i) => (
-            <motion.div
-              key={p.n}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8, delay: i * 0.08 }}
-              className="relative"
-            >
-              <span
-                aria-hidden
-                className="absolute -top-8 -left-4 font-heading text-[7rem] leading-none gold-text opacity-25 select-none pointer-events-none"
+        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-center px-6">
+          <SectionHeading
+            kicker="What Makes Us Different"
+            title={<>Why <em className="italic text-parchment/60">Enkai</em>.</>}
+          />
+
+          {/* Progress rail */}
+          <div className="mt-10 md:mt-14">
+            <div className="relative h-px w-full bg-parchment/10 overflow-hidden">
+              <motion.span
+                className="absolute inset-y-0 left-0 bg-gold"
+                style={{ width: lineWidth }}
+              />
+            </div>
+            <div className="mt-4 flex items-center gap-3 font-ui text-[10px] tracking-[0.35em] uppercase text-parchment/50">
+              {pillars.map((p, i) => (
+                <span
+                  key={p.n}
+                  className={`transition-colors duration-500 ${
+                    i === active ? "text-gold" : ""
+                  }`}
+                >
+                  {p.n}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Pillar reveal */}
+          <div className="relative mt-12 md:mt-16 min-h-[280px] md:min-h-[340px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={pillars[active].n}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -40 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="relative max-w-2xl"
               >
-                {p.n}
-              </span>
-              <div className="relative">
-                <span className="block h-0.5 w-8 bg-burgundy-bright mb-5" />
-                <h3 className="font-heading text-2xl text-parchment">{p.title}</h3>
-                <p className="justify-pretty mt-4 text-parchment/65 text-[15px] max-w-sm">
-                  {p.body}
+                <span
+                  aria-hidden
+                  className="absolute -top-16 -left-4 font-heading text-[9rem] md:text-[12rem] leading-none gold-text opacity-20 select-none pointer-events-none"
+                >
+                  {pillars[active].n}
+                </span>
+                <span className="relative block h-0.5 w-10 bg-burgundy-bright mb-6" />
+                <h3 className="relative font-heading text-3xl md:text-5xl text-parchment leading-[1.1]">
+                  {pillars[active].title}
+                </h3>
+                <p className="relative justify-pretty mt-6 text-parchment/70 text-[15px] md:text-lg max-w-xl">
+                  {pillars[active].body}
                 </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-        <div className="mt-24 flex flex-wrap items-center gap-3">
-          <span className="font-ui text-[11px] tracking-[0.4em] uppercase text-gold mr-2">
-            Brand DNA —
-          </span>
-          {traits.map((t) => (
-            <span
-              key={t}
-              className="font-ui text-xs tracking-[0.2em] uppercase text-gold border border-gold/40 rounded-full px-4 py-2 hover:bg-gold/15 transition-colors cursor-default"
-            >
-              {t}
+          <div className="mt-10 md:mt-14 flex flex-wrap items-center gap-3">
+            <span className="font-ui text-[11px] tracking-[0.4em] uppercase text-gold mr-2">
+              Brand DNA —
             </span>
-          ))}
+            {traits.map((t) => (
+              <span
+                key={t}
+                className="font-ui text-xs tracking-[0.2em] uppercase text-gold border border-gold/40 rounded-full px-4 py-2"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
