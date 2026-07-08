@@ -39,7 +39,6 @@ export const Route = createFileRoute("/portfolio")({
    DATA
    ───────────────────────────────────────────── */
 
-type CardSize = "hero" | "tall" | "wide" | "square" | "small";
 type RowAnim = "fade-up" | "slide-left" | "slide-right" | "scale-in";
 
 type Item = {
@@ -48,21 +47,9 @@ type Item = {
   location: string;
   year: string;
   cat: string;
-  size: CardSize;
-  row: number;
   description: string;
 };
 
-const categories = [
-  "All",
-  "Corporate",
-  "Weddings",
-  "Concerts",
-  "Launches",
-  "Awards",
-  "Influencers",
-  "Luxury",
-] as const;
 
 const allItems: Item[] = [
   {
@@ -71,8 +58,6 @@ const allItems: Item[] = [
     location: "New Delhi",
     year: "2025",
     cat: "Concerts",
-    size: "hero",
-    row: 0,
     description:
       "A three-day cultural spectacle bringing together 15,000 attendees across music, art, and dialogue. We captured every stage, every standing ovation, and every backstage whisper — published to the feed before the applause faded.",
   },
@@ -82,21 +67,8 @@ const allItems: Item[] = [
     location: "Mumbai",
     year: "2025",
     cat: "Awards",
-    size: "tall",
-    row: 0,
     description:
       "India's most glamorous awards night, reimagined as a real-time social narrative. From the red carpet arrivals to the final encore, every frame was shot, cut, and live-published within minutes.",
-  },
-  {
-    img: pf2,
-    title: "Sangeet Ceremony",
-    location: "Udaipur",
-    year: "2024",
-    cat: "Weddings",
-    size: "square",
-    row: 0,
-    description:
-      "A lakeside sangeet under a canopy of marigolds and fairy lights. We documented the choreography, the laughter, and the once-in-a-lifetime moments with cinematic precision.",
   },
   {
     img: portfolio2,
@@ -104,8 +76,6 @@ const allItems: Item[] = [
     location: "New Delhi",
     year: "2025",
     cat: "Corporate",
-    size: "wide",
-    row: 1,
     description:
       "A flagship corporate summit gathering 200+ industry leaders. Keynotes, panel discussions, and networking moments captured and amplified across social platforms in real time.",
   },
@@ -115,8 +85,6 @@ const allItems: Item[] = [
     location: "Mumbai",
     year: "2025",
     cat: "Launches",
-    size: "hero",
-    row: 1,
     description:
       "A high-fashion runway launch where every silhouette was a story. We translated the couture into a social-first visual language — bold, editorial, and instantly shareable.",
   },
@@ -126,90 +94,34 @@ const allItems: Item[] = [
     location: "Hyderabad",
     year: "2024",
     cat: "Concerts",
-    size: "small",
-    row: 1,
     description:
       "A stadium-scale concert finale with 40,000 fans on their feet. The energy was deafening, the lights were blinding, and we were in the thick of it — streaming the story as it unfolded.",
   },
   {
     img: pf5,
-    title: "Club Launch Night",
+    title: "Concert Night",
     location: "Mumbai",
     year: "2025",
-    cat: "Launches",
-    size: "tall",
-    row: 2,
+    cat: "Concerts",
     description:
-      "An exclusive nightclub launch in the heart of the city. Bottle service, neon lights, and a guest list that read like a who's-who of the scene — all captured in a single electric night.",
-  },
-  {
-    img: pf6,
-    title: "Product Reveal",
-    location: "Bengaluru",
-    year: "2025",
-    cat: "Corporate",
-    size: "wide",
-    row: 2,
-    description:
-      "A tech-industry product reveal with a cinematic stage design. We captured the countdown, the curtain drop, and the hands-on demos — delivering a content package that launched alongside the product.",
-  },
-  {
-    img: hero1,
-    title: "Influencer Meet & Greet",
-    location: "Goa",
-    year: "2024",
-    cat: "Influencers",
-    size: "square",
-    row: 2,
-    description:
-      "An intimate creator-economy gathering by the beach. We documented the collaborations, the conversations, and the content that was born in real time — a masterclass in community-driven storytelling.",
-  },
-  {
-    img: hero2,
-    title: "Luxury Auto Showcase",
-    location: "Mumbai",
-    year: "2025",
-    cat: "Luxury",
-    size: "hero",
-    row: 3,
-    description:
-      "A private unveiling of a limited-edition hypercar. Every curve was lit like a museum piece, every detail captured with the reverence it deserved — a visual love letter to automotive artistry.",
+      "An electrifying night of live energy — neon lights, a packed room, and a story captured in motion with editorial precision.",
   },
   {
     img: hero3,
-    title: "Gala Charity Dinner",
+    title: "Award Ceremony",
     location: "New Delhi",
     year: "2025",
     cat: "Awards",
-    size: "small",
-    row: 3,
     description:
-      "A black-tie charity gala raising funds for education. We captured the generosity, the speeches, and the quiet moments of connection that made the evening unforgettable.",
-  },
-  {
-    img: hero4,
-    title: "Brand Ambassador Shoot",
-    location: "Jaipur",
-    year: "2024",
-    cat: "Influencers",
-    size: "tall",
-    row: 3,
-    description:
-      "A two-day brand ambassador shoot in the palaces of Jaipur. We blended heritage architecture with modern brand storytelling — a cross-platform content package that felt both timeless and now.",
+      "A black-tie award evening built like a narrative — from the first arrivals to the final reveal, captured frame-by-frame.",
   },
 ];
+
+
 
 /* ─────────────────────────────────────────────
    LAYOUT CONFIG
    ───────────────────────────────────────────── */
-
-const sizeClasses: Record<CardSize, string> = {
-  hero: "md:col-span-8 md:row-span-2 aspect-[16/10] md:aspect-auto md:h-full",
-  tall: "md:col-span-4 md:row-span-2 aspect-[3/4] md:aspect-auto md:h-full",
-  wide: "md:col-span-6 aspect-[16/9]",
-  square: "md:col-span-4 aspect-square",
-  small: "md:col-span-4 aspect-[4/3]",
-};
 
 const rowAnimConfig: Record<number, RowAnim> = {
   0: "fade-up",
@@ -217,6 +129,7 @@ const rowAnimConfig: Record<number, RowAnim> = {
   2: "slide-right",
   3: "scale-in",
 };
+
 
 function getAnimVariant(anim: RowAnim) {
   switch (anim) {
@@ -249,29 +162,16 @@ function getAnimVariant(anim: RowAnim) {
 
 function useScrollParallax() {
   const ref = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState(0);
 
+  // Kept for section re-entry detection.
+  // No active parallax state is used in the editorial redesign.
   useEffect(() => {
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        if (!ref.current) return;
-        const rect = ref.current.getBoundingClientRect();
-        const center = rect.top + rect.height / 2;
-        const dist = center - window.innerHeight / 2;
-        setOffset(dist * -0.05);
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
+    // Intentionally no-op for this editorial layout.
   }, []);
 
-  return { ref, offset };
+
+  return { ref };
+
 }
 
 /* ─────────────────────────────────────────────
@@ -287,98 +187,183 @@ function PortfolioCard({
   index: number;
   onOpen: (i: number) => void;
 }) {
-  const anim = rowAnimConfig[item.row] ?? "fade-up";
-  const variant = getAnimVariant(anim);
-  const isLarge = item.size === "hero" || item.size === "tall";
+  // Editorial alternating layout rules requested:
+  // 1: Image 70% | Text 30%
+  // 2: Text 30% | Image 70%
+  // 3: Image | Text (equal-ish)
+  // 4: Text | Image (equal-ish)
+  // 5-7 continue the pattern.
+  const variant = index % 4;
+  const imageFirst = variant === 0 || variant === 2;
+  const split70 = variant === 0 || variant === 1;
 
   return (
     <motion.div
-      layout
-      {...variant}
-      viewport={{ once: false, margin: "-80px" }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, margin: "-120px" }}
       transition={{
-        duration: 0.8,
-        delay: (index % 3) * 0.12,
+        duration: 0.9,
+        delay: index * 0.06,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className={`group relative overflow-hidden cursor-pointer ${sizeClasses[item.size]}`}
-      style={{
-        borderRadius: "22px",
-        animation: `floatY 7s ease-in-out infinite`,
-        animationDelay: `${index * 0.5}s`,
-      }}
+      className="group relative overflow-hidden cursor-pointer mx-auto"
+      style={{ borderRadius: "20px" }}
       onClick={() => onOpen(index)}
     >
-      {/* Image with parallax zoom */}
-      <div className="absolute inset-0 overflow-hidden" style={{ borderRadius: "22px" }}>
-        <img
-          src={item.img}
-          alt={item.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.05] group-hover:brightness-110"
-          style={{ filter: "brightness(0.82)" }}
-        />
-      </div>
-
-      {/* Gradient overlay */}
+      {/* Gold border base (premium glass) */}
       <div
-        className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-100"
+        className="absolute inset-0 pointer-events-none opacity-100"
         style={{
-          borderRadius: "22px",
-          background:
-            "linear-gradient(180deg, rgba(1,34,60,0.15) 0%, rgba(1,34,60,0.4) 50%, rgba(1,34,60,0.95) 100%)",
-          opacity: 0.85,
+          borderRadius: "20px",
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(212,175,55,0.28)",
+          boxShadow: "inset 0 0 0 1px rgba(212,175,55,0.08)",
+          backdropFilter: "blur(14px)",
         }}
       />
 
-      {/* Hover burgundy glow */}
+      {/* Hover glow */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          borderRadius: "22px",
-          boxShadow: "inset 0 0 60px rgba(128,0,32,0.4), 0 0 50px rgba(128,0,32,0.25)",
+          borderRadius: "20px",
+          border: "1px solid rgba(212,175,55,0.7)",
+          boxShadow: "0 0 0 1px rgba(212,175,55,0.12), 0 0 42px rgba(212,175,55,0.18)",
         }}
       />
 
-      {/* Gold border on hover */}
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          borderRadius: "22px",
-          border: "1px solid rgba(212,175,55,0.6)",
-        }}
-      />
+      {/* Layout row (single card per row) */}
+      <div className="relative flex items-stretch" style={{ borderRadius: "20px" }}>
+        {imageFirst ? (
+          <>
+            <div className={split70 ? "w-[70%]" : "w-[50%]"}>
+              <motion.div
+                className="relative h-full overflow-hidden"
+                initial={{ scale: 1.08 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: false, margin: "-120px" }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-[500ms] ease-out group-hover:scale-[1.04]"
+                  style={{ filter: "brightness(0.78)" }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(1,34,60,0.10) 0%, rgba(1,34,60,0.40) 55%, rgba(1,34,60,0.92) 100%)",
+                  }}
+                />
+              </motion.div>
+            </div>
 
-      {/* Content */}
-      <div className="absolute inset-x-0 bottom-0 p-6 md:p-7 transition-transform duration-500 ease-out group-hover:-translate-y-1">
-        <span className="font-ui text-[10px] tracking-[0.35em] uppercase text-gold/90">
-          {item.cat}
-        </span>
-        <h3
-          className={`font-heading text-parchment mt-2 leading-[1.15] ${
-            isLarge ? "text-2xl md:text-3xl" : "text-xl"
-          }`}
-        >
-          {item.title}
-        </h3>
-        <div className="flex items-center gap-2 mt-2">
-          <span className="font-ui text-[12px] text-parchment/60">{item.location}</span>
-          <span className="text-parchment/30 text-[10px]">●</span>
-          <span className="font-ui text-[12px] text-parchment/60">{item.year}</span>
-        </div>
+            <div className={split70 ? "w-[30%]" : "w-[50%]"}>
+              <div className="h-full p-6 md:p-8 flex flex-col justify-end">
+                <div className="flex flex-col gap-4">
+                  <span className="font-ui text-[10px] tracking-[0.35em] uppercase text-gold/90">
+                    {item.cat}
+                  </span>
+                  <h3 className="font-heading text-parchment leading-[1.12] text-xl md:text-3xl">
+                    {item.title}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <span className="font-ui text-[12px] text-parchment/60">{item.location}</span>
+                    <span className="text-parchment/30 text-[10px]">●</span>
+                    <span className="font-ui text-[12px] text-parchment/60">{item.year}</span>
+                  </div>
+                  <p className="text-parchment/70 text-sm leading-[1.6] justify-pretty">
+                    {item.description}
+                  </p>
+                  <div className="mt-1 flex items-center">
+                    <button className="ml-0 inline-flex items-center gap-2 text-parchment/80 text-xs tracking-[0.25em] uppercase font-ui hover:text-gold transition-colors transition-opacity duration-500">
+                      <span className="h-0.5 w-14 bg-gold/30" />
+                      <span>View Project →</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={split70 ? "w-[30%]" : "w-[50%]"}>
+              <div className="h-full p-6 md:p-8 flex flex-col justify-end">
+                <div className="flex flex-col gap-4">
+                  <span className="font-ui text-[10px] tracking-[0.35em] uppercase text-gold/90">
+                    {item.cat}
+                  </span>
+                  <h3 className="font-heading text-parchment leading-[1.12] text-xl md:text-3xl">
+                    {item.title}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <span className="font-ui text-[12px] text-parchment/60">{item.location}</span>
+                    <span className="text-parchment/30 text-[10px]">●</span>
+                    <span className="font-ui text-[12px] text-parchment/60">{item.year}</span>
+                  </div>
+                  <p className="text-parchment/70 text-sm leading-[1.6] justify-pretty">
+                    {item.description}
+                  </p>
+                  <div className="mt-1 flex items-center">
+                    <button className="ml-0 inline-flex items-center gap-2 text-parchment/80 text-xs tracking-[0.25em] uppercase font-ui hover:text-gold transition-colors transition-opacity duration-500">
+                      <span className="h-0.5 w-14 bg-gold/30" />
+                      <span>View Project →</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={split70 ? "w-[70%]" : "w-[50%]"}>
+              <motion.div
+                className="relative h-full overflow-hidden"
+                initial={{ scale: 1.08 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: false, margin: "-120px" }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-[500ms] ease-out group-hover:scale-[1.04]"
+                  style={{ filter: "brightness(0.78)" }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(1,34,60,0.10) 0%, rgba(1,34,60,0.40) 55%, rgba(1,34,60,0.92) 100%)",
+                  }}
+                />
+              </motion.div>
+            </div>
+          </>
+        )}
       </div>
 
-      {/* Premium shadow */}
+      {/* Luxury shadow */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          borderRadius: "22px",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+          borderRadius: "20px",
+          boxShadow: "0 28px 80px rgba(0,0,0,0.55)",
         }}
+      />
+
+      {/* Ensure the gold accent reads as a base stroke even without hover */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ borderRadius: "20px" }}
       />
     </motion.div>
   );
 }
+
 
 /* ─────────────────────────────────────────────
    LIGHTBOX
@@ -520,23 +505,22 @@ function Lightbox({
    ───────────────────────────────────────────── */
 
 function Portfolio() {
-  const [cat, setCat] = useState<string>("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const { ref, offset } = useScrollParallax();
+  const { ref } = useScrollParallax();
 
-  const filtered =
-    cat === "All" ? allItems : allItems.filter((i) => i.cat === cat);
+  const featured = allItems;
 
   const openLightbox = useCallback((i: number) => setLightboxIndex(i), []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
   const prevLightbox = useCallback(
-    () => setLightboxIndex((p) => (p === null ? null : (p - 1 + filtered.length) % filtered.length)),
-    [filtered.length],
+    () => setLightboxIndex((p) => (p === null ? null : (p - 1 + featured.length) % featured.length)),
+    [featured.length],
   );
   const nextLightbox = useCallback(
-    () => setLightboxIndex((p) => (p === null ? null : (p + 1) % filtered.length)),
-    [filtered.length],
+    () => setLightboxIndex((p) => (p === null ? null : (p + 1) % featured.length)),
+    [featured.length],
   );
+
 
   // ESC to close lightbox + arrow navigation
   useEffect(() => {
@@ -554,12 +538,9 @@ function Portfolio() {
     };
   }, [lightboxIndex, closeLightbox, prevLightbox, nextLightbox]);
 
-  // Group items by row for editorial layout
-  const rows = Array.from(new Set(filtered.map((i) => i.row))).sort();
-  const itemsByRow = rows.map((r) => filtered.filter((i) => i.row === r));
+  // Featured editorial order (single column)
+  const items = allItems;
 
-  // Flatten with global index for lightbox
-  let globalIndex = 0;
 
   return (
     <div className="relative bg-navy pt-40 pb-32 min-h-screen overflow-hidden">
@@ -590,62 +571,16 @@ function Portfolio() {
           and the moments we've moved from the venue to the feed — in real time.
         </p>
 
-        {/* ─── Filter Chips ─── */}
-        <div className="mt-16 flex flex-wrap gap-3">
-          {categories.map((c) => {
-            const active = c === cat;
-            return (
-              <button
-                key={c}
-                onClick={() => setCat(c)}
-                className={`font-ui text-[11px] tracking-[0.25em] uppercase px-5 py-2.5 rounded-full border transition-all duration-300 ${
-                  active
-                    ? "bg-burgundy border-burgundy text-white shadow-[0_0_20px_rgba(128,0,32,0.5)] scale-105"
-                    : "border-gold/20 text-parchment/60 hover:border-gold/60 hover:text-gold hover:scale-105 hover:shadow-[0_0_15px_rgba(212,175,55,0.2)]"
-                }`}
-              >
-                {c}
-              </button>
-            );
-          })}
+        {/* ─── Editorial Gallery (Featured Stories) ─── */}
+        <div ref={ref} className="mt-20 space-y-14">
+          {items.map((item, idx) => (
+            <div key={item.title} className="px-0 md:px-2">
+              <PortfolioCard item={item} index={idx} onOpen={openLightbox} />
+            </div>
+          ))}
         </div>
 
-        {/* ─── Editorial Gallery ─── */}
-        <div ref={ref} className="mt-20 space-y-8 md:space-y-12">
-          <AnimatePresence mode="popLayout">
-            {rows.map((rowKey) => {
-              const rowItems = itemsByRow[rows.indexOf(rowKey)] ?? [];
-              if (rowItems.length === 0) return null;
 
-              return (
-                <motion.div
-                  key={`${cat}-${rowKey}`}
-                  layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8"
-                  style={{
-                    gridAutoRows: "minmax(280px, auto)",
-                  }}
-                >
-                  {rowItems.map((item) => {
-                    const idx = globalIndex++;
-                    return (
-                      <PortfolioCard
-                        key={`${item.title}-${cat}`}
-                        item={item}
-                        index={idx}
-                        onOpen={openLightbox}
-                      />
-                    );
-                  })}
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </div>
 
         {/* ─── Footer note ─── */}
         <div className="mt-24 flex items-center gap-4">
@@ -661,7 +596,7 @@ function Portfolio() {
       <AnimatePresence>
         {lightboxIndex !== null && (
           <Lightbox
-            items={filtered}
+            items={items}
             index={lightboxIndex}
             onClose={closeLightbox}
             onPrev={prevLightbox}
