@@ -137,7 +137,7 @@ function Hero() {
 /* ================= MISSION & VISION ================= */
 function MissionVision() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: false, margin: "-100px" });
   const bookEase = [0.22, 1, 0.36, 1] as const;
   const openDuration = 1.35;
 
@@ -323,7 +323,7 @@ const LINE_DURATION = 1.2;
 
 function WhyEnkai() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const inView = useInView(sectionRef, { once: false, margin: "-100px" });
   const [activeIndex, setActiveIndex] = useState(-1);
 
   useEffect(() => {
@@ -622,7 +622,7 @@ function ChapterAbout() {
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1 }}
           className="font-ui text-[11px] tracking-[0.5em] uppercase text-burgundy-bright"
         >
@@ -631,7 +631,7 @@ function ChapterAbout() {
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1.1, delay: 0.15 }}
           className="mt-6 font-heading text-5xl md:text-7xl leading-[1.05] text-parchment"
         >
@@ -640,14 +640,14 @@ function ChapterAbout() {
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1, delay: 0.4 }}
           className="hairline-gold h-px w-40 mx-auto my-10 origin-left"
         />
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 1, delay: 0.55 }}
           className="justify-pretty text-parchment/75 text-lg leading-[1.9] max-w-3xl mx-auto"
         >
@@ -701,7 +701,7 @@ function PortfolioGlimpse() {
               key={g.title}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
+              viewport={{ once: false, margin: "-80px" }}
               transition={{ duration: 1, delay: i * 0.15 }}
               className="group relative overflow-hidden rounded-xl border border-white/5"
             >
@@ -775,7 +775,7 @@ function Process() {
                 key={s.n}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
+                viewport={{ once: false, margin: "-40px" }}
                 transition={{ duration: 0.8, delay: i * 0.1 }}
                 className="w-[280px] md:w-[320px] shrink-0"
               >
@@ -891,7 +891,7 @@ function Services() {
               key={s.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
+              viewport={{ once: false, margin: "-60px" }}
               transition={{ duration: 0.8, delay: i * 0.06 }}
               className="group relative p-8 rounded-xl border border-gold/15 transition-all duration-500 hover:-translate-y-1.5 hover:border-gold/40 hover:shadow-[0_0_40px_rgba(212,175,55,0.15)]"
               style={{
@@ -956,7 +956,7 @@ function Counter({
   delay: number;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: false, margin: "-100px" });
   const [n, setN] = useState(0);
 
   useEffect(() => {
@@ -1033,7 +1033,7 @@ function Reels() {
                 key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.9, delay: i * 0.12 }}
                 className="absolute rounded-xl overflow-hidden border border-gold/20 shadow-[0_20px_60px_rgba(0,0,0,0.5)] animate-float"
                 style={{
@@ -1097,7 +1097,7 @@ function Contact() {
         <motion.form
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.9 }}
           onSubmit={(e) => e.preventDefault()}
           className="mt-16 grid gap-6 rounded-2xl p-8 md:p-12 border border-gold/20"
@@ -1179,7 +1179,7 @@ function SectionHeading({
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false }}
         transition={{ duration: 0.7 }}
         className="flex items-center gap-3"
       >
@@ -1191,7 +1191,7 @@ function SectionHeading({
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false }}
         transition={{ duration: 0.9, delay: 0.1 }}
         className="font-heading text-4xl md:text-6xl leading-[1.05] text-parchment max-w-3xl"
       >
