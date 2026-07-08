@@ -136,18 +136,44 @@ function Hero() {
 
 /* ================= MISSION & VISION ================= */
 function MissionVision() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const bookEase = [0.22, 1, 0.36, 1] as const;
+  const openDuration = 1.35;
+
   return (
-    <section className="relative py-32 md:py-40 bg-navy">
+    <section ref={ref} className="relative py-32 md:py-40 bg-navy overflow-hidden">
       <div className="absolute inset-0 radial-gold-glow opacity-40" />
       <div className="relative mx-auto max-w-7xl px-6">
-        <div className="grid gap-2 md:grid-cols-2">
-          <RevealCard
+        <div
+          className="relative grid md:grid-cols-2"
+          style={{ perspective: "2000px", perspectiveOrigin: "center center" }}
+        >
+          {/* Spine */}
+          <motion.div
+            aria-hidden
+            initial={{ scaleY: 0, opacity: 0 }}
+            animate={inView ? { scaleY: 1, opacity: 1 } : {}}
+            transition={{ duration: 0.7, ease: bookEase }}
+            style={{ transformOrigin: "center" }}
+            className="hidden md:block pointer-events-none absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-px bg-gradient-to-b from-transparent via-gold to-transparent z-10"
+          />
+
+          <BookCard
+            side="left"
+            inView={inView}
+            duration={openDuration}
+            ease={bookEase}
             variant="navy"
             label="Our Mission"
             title="To redefine event storytelling."
             body="We exist to transform every event into a real-time digital experience — capturing moments, publishing instantly, and turning presence into reach. Speed is our craft; presence is our discipline; social is our stage."
           />
-          <RevealCard
+          <BookCard
+            side="right"
+            inView={inView}
+            duration={openDuration}
+            ease={bookEase}
             variant="burgundy"
             label="Our Vision"
             title="India's most trusted Real-Time Event Media Company."
@@ -159,26 +185,53 @@ function MissionVision() {
   );
 }
 
-function RevealCard({
+function BookCard({
+  side,
+  inView,
+  duration,
+  ease,
   variant,
   label,
   title,
   body,
 }: {
+  side: "left" | "right";
+  inView: boolean;
+  duration: number;
+  ease: readonly [number, number, number, number];
   variant: "navy" | "burgundy";
   label: string;
   title: string;
   body: string;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
   const bg = variant === "navy" ? "bg-navy-deep" : "bg-burgundy";
+  const isLeft = side === "left";
+  const contentDelay = duration * 0.7;
+
+  // Initial: both cards collapsed to the center spine (scaleX 0 from inner edge),
+  // then "open" outward with a slight Y rotation for the book effect.
+  const initial = {
+    rotateY: 0,
+    x: isLeft ? 40 : -40,
+    scaleX: 0.6,
+    opacity: 0.6,
+  };
+  const animate = inView
+    ? { rotateY: isLeft ? -10 : 10, x: 0, scaleX: 1, opacity: 1 }
+    : {};
+
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      initial={initial}
+      animate={animate}
+      transition={{ duration, ease: [...ease] }}
+      style={{
+        transformOrigin: isLeft ? "right center" : "left center",
+        transformStyle: "preserve-3d",
+        boxShadow: isLeft
+          ? "-20px 30px 60px -20px rgba(0,0,0,0.5)"
+          : "20px 30px 60px -20px rgba(0,0,0,0.5)",
+      }}
       className={`${bg} relative px-8 md:px-14 py-16 md:py-20 overflow-hidden`}
     >
       <div className="absolute top-0 right-0 h-32 w-32 opacity-20 pointer-events-none">
@@ -186,32 +239,32 @@ function RevealCard({
       </div>
 
       <motion.div
-        initial={{ scaleY: 0 }}
-        animate={inView ? { scaleY: 1 } : {}}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        style={{ transformOrigin: "top" }}
-        className="h-10 w-0.5 bg-gold mb-6"
+        initial={{ scaleX: 0 }}
+        animate={inView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.8, delay: contentDelay + 0.05, ease: [...ease] }}
+        style={{ transformOrigin: "left" }}
+        className="h-px w-16 bg-gold mb-6"
       />
       <motion.p
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.2 }}
+        transition={{ duration: 0.6, delay: contentDelay + 0.1 }}
         className="font-ui text-[11px] tracking-[0.4em] uppercase text-gold mb-6"
       >
         {label}
       </motion.p>
       <motion.h2
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.3 }}
+        transition={{ duration: 0.8, delay: contentDelay + 0.2, ease: [...ease] }}
         className="font-heading text-3xl md:text-5xl leading-[1.05] text-parchment max-w-lg"
       >
         {title}
       </motion.h2>
       <motion.p
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        transition={{ duration: 0.8, delay: contentDelay + 0.32, ease: [...ease] }}
         className="justify-pretty mt-8 text-parchment/75 max-w-lg text-[15px]"
       >
         {body}
