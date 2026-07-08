@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import logo from "@/assets/logo.jpg";
 
 const links = [
   { label: "Home", href: "#home", type: "anchor" as const },
@@ -21,27 +23,51 @@ export function Navbar() {
   }, []);
 
   const handleAnchor = (e: React.MouseEvent, href: string) => {
-    if (!onHome) return; // let route take over via Link on non-home pages
+    if (!onHome) return;
     e.preventDefault();
     const id = href.slice(1);
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const logoSize = scrolled ? 44 : 56;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-navy/70 backdrop-blur-xl py-3 border-b border-gold/10"
-          : "bg-transparent py-6"
+          : "bg-transparent py-5"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6">
         <Link to="/" className="flex items-center gap-3 group">
-          <span className="grid h-9 w-9 place-items-center rounded-full border border-gold/40 text-gold font-heading text-lg group-hover:border-gold group-hover:shadow-[0_0_18px_rgba(212,175,55,0.4)] transition-all">
-            E
-          </span>
-          <span className="font-heading text-lg tracking-[0.18em] text-parchment">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8, y: -8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            whileHover={{ scale: 1.08, rotate: 3 }}
+            style={{ width: logoSize, height: logoSize }}
+            className="relative inline-block rounded-full transition-[width,height] duration-500"
+          >
+            <span
+              aria-hidden
+              className="absolute inset-[-8px] rounded-full blur-xl opacity-70"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(212,175,55,0.35), rgba(128,0,32,0.25) 55%, transparent 75%)",
+              }}
+            />
+            <span className="relative block h-full w-full rounded-full overflow-hidden border border-white/40 bg-white/5 backdrop-blur-md shadow-[0_4px_24px_rgba(1,42,74,0.5)] group-hover:shadow-[0_0_28px_rgba(212,175,55,0.55)] transition-shadow duration-500">
+              <img
+                src={logo}
+                alt="Enkai Social"
+                className="h-full w-full object-cover"
+                draggable={false}
+              />
+            </span>
+          </motion.span>
+          <span className="hidden sm:inline font-heading text-lg tracking-[0.18em] text-parchment">
             ENKAI<span className="text-gold"> · </span>SOCIAL
           </span>
         </Link>
