@@ -45,6 +45,7 @@ import {
   type ProjectImpactStat,
   type ProjectHighlightIcon,
 } from "./projectdata";
+import { Navbar } from "@/components/enkai/Navbar";
 
 
 export const Route = createFileRoute("/portfolio")({
@@ -890,12 +891,18 @@ function Portfolio() {
           className="fixed inset-0 z-[900] overflow-y-auto overflow-x-hidden bg-[var(--pf-bg)] text-[var(--pf-fg)] [scrollbar-width:none] overscroll-none [scrollbar-color:transparent_transparent] [&::-webkit-scrollbar]:hidden"
           onScroll={handleOverlayScroll}
           onClick={(e) => e.stopPropagation()}
+          data-lenis-prevent
         >
           {/* Scroll Progress Bar */}
           <div
             className="fixed left-0 top-0 z-[930] h-[2px] bg-[var(--amber)] transition-[width] duration-150"
             style={{ width: `${scrollProgress}%` }}
           />
+
+          {/* Header inside overlay */}
+          <div className="fixed inset-x-0 top-0 z-[950] [&_header]:bg-[var(--pf-bg)]/70 [&_header]:backdrop-blur-xl">
+            <Navbar />
+          </div>
 
           {/* Close Trigger Button */}
           <button
